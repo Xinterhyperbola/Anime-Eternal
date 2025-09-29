@@ -1165,7 +1165,11 @@ sections.SettingsSectionLeft:Button({
     end
 })
 
-
+game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
+	if queueteleport then
+		queueteleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Xinterhyperbola/Anime-Eternal/refs/heads/main/Haru_merged.lua'))()")
+	end
+end)
 
 
 
