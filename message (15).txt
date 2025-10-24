@@ -1,0 +1,906 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Haru", "DarkTheme")
+
+
+local Tab = Window:NewTab("Auto Farm")
+local Section = Tab:NewSection("Auto Farm Lvl")
+local Weaponlist = {}
+local Weapon = nil
+local AutoEquiped = false
+
+for i,v in pairs(game:GetService("Players").LocalPlayer.StarterGear:GetChildren()) do
+    if v:IsA("Tool") then
+        table.insert(Weaponlist, v.Name)
+    end
+end
+
+_G.AutoFarm = false
+local a = "HumanoidRootPart"
+local targetCFrame = nil
+
+function checkmon()
+    return game:GetService("Players").LocalPlayer.QuestFolder.QuestSlot1.Target.Value
+end
+
+function checkLevelAndQuest()
+    local player = game:GetService("Players").LocalPlayer
+    local lv = player.PlayerData.Level.Value
+    local mon, CFrameMon, CFrameQ
+    local monter = checkmon()
+
+    if lv >= 1 and lv <= 49 then --1
+        mon = monter
+        CFrameMon = CFrame.new(634.3850708007812, -36.91280746459961, -591.444091796875)
+        CFrameQ = CFrame.new(563.0477294921875, -37.04503631591797, -556.7967529296875)
+    elseif lv >= 50 and lv <= 99 then --2
+        mon = monter
+        CFrameMon = CFrame.new(633.912353515625, -36.94797897338867, -957.9129638671875)
+        CFrameQ = CFrame.new(561.4747314453125, -37.04503631591797, -913.2445678710938)
+    elseif lv >= 100 and lv <= 149 then--3
+        mon = monter
+        CFrameMon = CFrame.new(440.3352966308594, -3.379854917526245, -1516.34814453125)
+        CFrameQ = CFrame.new(470.1351013183594, -3.5569748878479004, -1402.0771484375)
+    elseif lv >= 150 and lv <= 199 then--4
+        mon = monter
+        CFrameMon = CFrame.new(916.2075805664062, -36.947975158691406, -743.572265625)
+        CFrameQ = CFrame.new(867.547607421875, -37.04503631591797, -734.9253540039062)
+    elseif lv >= 200 and lv <= 249 then--5
+        mon = monter
+        CFrameMon = CFrame.new(974.6493530273438, -36.94600296020508, -1467.8740234375)
+        CFrameQ = CFrame.new(903.516357421875, -37.04300308227539, -1503.30908203125)
+    elseif lv >= 250 and lv <= 299 then--6
+        mon = monter
+        CFrameMon = CFrame.new(-21.559709548950195, -36.971553802490234, -1159.990478515625)
+        CFrameQ = CFrame.new(10.815299987792969, -37.043060302734375, -1035.08447265625)
+    elseif lv >= 300 and lv <= 349 then--7
+        mon = monter
+        CFrameMon = CFrame.new(-2925.53125, -55.22480773925781, -1930.8243408203125)
+        CFrameQ = CFrame.new(-2943.066650390625, -55.27850341796875, -1876.0340576171875)
+    elseif lv >= 350 and lv <= 399 then--8
+        mon = monter
+        CFrameMon = CFrame.new(-3172.7265625, -55.224761962890625, -1750.593505859375)
+        CFrameQ = CFrame.new(-3144.18896484375, -55.27850341796875, -1811.564453125)
+    elseif lv >= 400 and lv <= 449 then--9
+        mon = monter    
+        CFrameMon = CFrame.new(-2873.076171875, -77.37654113769531, -2414.33203125)
+        CFrameQ = CFrame.new(-2922.573486328125, -77.6336898803711, -2324.192626953125)
+    elseif lv >= 450 and lv <= 499 then--10
+        mon = monter
+        CFrameMon = CFrame.new(-2923.3818359375, -55.22502136230469, -1717.989990234375)
+        CFrameQ = CFrame.new(-2994.75390625, -55.27850341796875, -1754.5185546875)
+    elseif lv >= 500 and lv <= 549 then--11
+        mon = monter
+        CFrameMon = CFrame.new(-3423.61572265625, -51.35039520263672, -2218.6064453125)
+        CFrameQ = CFrame.new(-3393.007080078125, -51.42747116088867, -2150.856689453125)
+    elseif lv >= 550 and lv <= 599 then--12
+        mon = monter
+        CFrameMon = CFrame.new(-3181.975341796875, -77.37615966796875, -2371.962646484375)
+        CFrameQ = CFrame.new(-3080.8486328125, -77.63935852050781, -2313.425537109375)
+    elseif lv >= 600 and lv <= 649 then--13
+        mon = monter
+        CFrameMon = CFrame.new(-3148.286865234375, -91.01447296142578, 625.38623046875)
+        CFrameQ = CFrame.new(-3064.14013671875, -91.05001068115234, 589.1516723632812)
+    elseif lv >= 650 and lv <= 699 then--14
+        mon = monter
+        CFrameMon = CFrame.new(-3359.45166015625, -91.01512145996094, 501.8848571777344)
+        CFrameQ = CFrame.new(-3390.96728515625, -91.10000610351562, 446.11737060546875)
+    elseif lv >= 700 and lv <= 749 then--15
+        mon = monter
+        CFrameMon = CFrame.new(-3867.514892578125, -91.3475112915039, 391.26251220703125)
+        CFrameQ = CFrame.new(-3685.599609375, -91.4940185546875, 360.074951171875)
+    elseif lv >= 750 and lv <= 799 then--16
+        mon = monter
+        CFrameMon = CFrame.new(-718.0699462890625, -92.64423370361328, -2819.90234375)
+        CFrameQ = CFrame.new(-749.982666015625, -92.7000961303711, -2891.060791015625)
+    elseif lv >= 800 and lv <= 849 then--17
+        mon = monter
+        CFrameMon = CFrame.new(-212.47605895996094, -92.64439392089844, -2804.370849609375)
+        CFrameQ = CFrame.new(-294.6082763671875, -92.7000961303711, -2777.902587890625)
+    elseif lv >= 850 and lv <= 899 then--18
+        mon = monter
+        CFrameMon = CFrame.new(-491.7370300292969, -92.63996124267578, -2964.39404296875)
+        CFrameQ = CFrame.new(-456.411865234375, -92.7000961303711, -2857.221923828125)
+    elseif lv >= 900 and lv <= 949 then--19
+        mon = monter
+        CFrameMon = CFrame.new(-497.7890319824219, -61.01396560668945, -3670.41650390625)
+        CFrameQ = CFrame.new(-461.940185546875, -61.0987663269043, -3531.037109375)
+    elseif lv >= 950 and lv <= 999 then--20
+        mon = monter
+        CFrameMon = CFrame.new(-1454.6650390625, -92.84423828125, 984.811279296875)
+        CFrameQ = CFrame.new(-1354.2821044921875, -89.659423828125, 937.6058959960938)
+    elseif lv >= 1000 and lv <= 1049 then--21
+        mon = monter
+        CFrameMon = CFrame.new(-763.2400512695312, -92.84970092773438, 1046.9010009765625)
+        CFrameQ = CFrame.new(-869.1089477539062, -90.909423828125, 1081.9730224609375)
+    elseif lv >= 1050 and lv <= 1149 then--22
+        mon = monter
+        CFrameMon = CFrame.new(-1500.0860595703125, -92.84424591064453, 1281.1956787109375)
+        CFrameQ = CFrame.new(-1420.6494140625, -92.91297912597656, 1251.182373046875)
+    elseif lv >= 1150 and lv <= 1199 then--24
+        mon = monter
+        CFrameMon = CFrame.new(1848.40869140625, 122.0107192993164, 3102.03662109375)
+        CFrameQ = CFrame.new(1830.38427734375, 121.99010467529297, 3442.57421875)
+    elseif lv >= 1200 and lv <= 1249 then--25
+        mon = monter
+        CFrameMon = CFrame.new(-2876.413330078125, -81.01841735839844, 2748.818603515625)
+        CFrameQ = CFrame.new(-2911.701171875, -81.0790786743164, 2824.928955078125)
+    elseif lv >= 1250 and lv <= 1299 then--26
+        mon = monter
+        CFrameMon = CFrame.new(-2867.2177734375, -81.01841735839844, 3241.638427734375)
+        CFrameQ = CFrame.new(-2896.59326171875, -81.0790786743164, 3189.844970703125)
+    elseif lv >= 1300 and lv <= 1349 then--27
+        mon = monter
+        CFrameMon = CFrame.new(-2526.908447265625, -81.01841735839844, 2964.275146484375)
+        CFrameQ = CFrame.new(-2589.728759765625, -81.07908630371094, 2989.1396484375)
+    elseif lv >= 1350 and lv <= 1399 then--28
+        mon = monter
+        CFrameMon = CFrame.new(-2681.068359375, -80.98747253417969, 3490.42724609375)
+        CFrameQ = CFrame.new(-2661.0869140625, -81.07847595214844, 3379.231689453125)
+    elseif lv >= 1400 and lv <= 1449 then--29
+        mon = monter
+        CFrameMon = CFrame.new(3226.8720703125, -51.62309265136719, 4480.69189453125)
+        CFrameQ = CFrame.new(2889.649658203125, -51.7829704284668, 4209.28173828125)
+    elseif lv >= 1450 and lv <= 1499 then--30
+        mon = monter
+        CFrameMon = CFrame.new(1041.189697265625, -51.686973571777344, 2764.097900390625)
+        CFrameQ = CFrame.new(1071.2093505859375, -51.785972595214844, 2819.88525390625)
+    elseif lv >= 1500 and lv <= 1549 then--31
+        mon = monter
+        CFrameMon = CFrame.new(1505.2830810546875, -51.686973571777344, 2296.156494140625)
+        CFrameQ = CFrame.new(1563.15869140625, -51.785972595214844, 2329.82080078125)
+    elseif lv >= 1550 and lv <= 1699 then--32--
+        mon = monter
+        CFrameMon = CFrame.new(6770.87939453125, -94.72420501708984, 4687.51025390625)
+        CFrameQ = CFrame.new(6770.87939453125, -94.72420501708984, 4687.51025390625)
+    elseif lv >= 1700 and lv <= 1749 then--33 1700
+        mon = monter
+        CFrameMon = CFrame.new(7964.7568359375, 30.755998611450195, 4545.93310546875)
+        CFrameQ = CFrame.new(7964.7568359375, 30.755998611450195, 4545.93310546875)
+    elseif lv >= 1750 and lv <= 1799 then--34
+        mon = monter
+        CFrameMon = CFrame.new(8332.2568359375, 30.755998611450195, 4494.6826171875)
+        CFrameQ = CFrame.new(8332.2568359375, 30.755998611450195, 4494.6826171875)
+    elseif lv >= 1800 and lv <= 1849 then--35
+        mon = monter
+        CFrameMon = CFrame.new(7906.017578125, 30.755998611450195, 4783.1826171875)
+        CFrameQ = CFrame.new(7906.017578125, 30.755998611450195, 4783.1826171875)
+    elseif lv >= 1850 and lv <= 1899 then--36
+        mon = monter
+        CFrameMon = CFrame.new(8301.982421875, 30.82499885559082, 4859.45361328125)
+        CFrameQ = CFrame.new(8274.009765625, 30.755998611450195, 4779.14892578125)
+    elseif lv >= 1900 and lv <= 1949 then--37---
+        mon = monter
+        CFrameMon = CFrame.new(3866.817626953125, -58.09956359863281, -1332.25390625)
+        CFrameQ = CFrame.new(3924.688720703125, -58.149627685546875, -1239.3822021484375)
+    elseif lv >= 1950 and lv <= 1999 then--38
+        mon = monter
+        CFrameMon = CFrame.new(3756.6083984375, -58.09956359863281, 175.57421875)
+        CFrameQ = CFrame.new(3698.358154296875, -58.149627685546875, 68.69364929199219)
+    elseif lv >= 2000 and lv <= 2049 then--39
+        mon = monter
+        CFrameMon = CFrame.new(4346.51513671875, -92.56229400634766, 232.9219970703125)
+        CFrameQ = CFrame.new(4345.716796875, -92.56229400634766, 232.39419555664062)
+    elseif lv >= 2050 and lv <= 2099 then--40
+        mon = monter
+        CFrameMon = CFrame.new(4980.4189453125, -92.3185043334961, 171.93008422851562)
+        CFrameQ = CFrame.new(4893.01513671875, -92.56239318847656, 233.1719970703125)
+    elseif lv >= 2100 and lv <= 2149 then--41
+        mon = monter
+        CFrameMon = CFrame.new(1310.094482421875, -54.329010009765625, -4571.78369140625)
+        CFrameQ = CFrame.new(1276.9483642578125, -54.329010009765625, -4668.7158203125)
+    elseif lv >= 2150 and lv <= 2199 then--42
+        mon = monter
+        CFrameMon = CFrame.new(1301.6280517578125, -54.329010009765625, -5003.8515625)
+        CFrameQ = CFrame.new(1338.78662109375, -54.329010009765625, -4914.5576171875)
+    elseif lv >= 2200 and lv <= 2249 then--43
+        mon = monter
+        CFrameMon = CFrame.new(2381.039794921875, -90.56163024902344, -4816.70361328125)
+        CFrameQ = CFrame.new(2230.732666015625, -90.56163024902344, -4788.4140625)
+    elseif lv >= 2250 and lv <= 2299 then--44
+        mon = monter
+        CFrameMon = CFrame.new(1880.9012451171875, 25.004993438720703, -5409.87939453125)
+        CFrameQ = CFrame.new(1331.0830078125, -90.56163024902344, -5375.45751953125)
+    elseif lv >= 2300 and lv <= 2349 then--45
+        mon = monter
+        CFrameMon = CFrame.new(1888.621826171875, 25.005001068115234, -5490.5498046875)
+        CFrameQ = CFrame.new(1877.033203125, 24.897502899169922, -5284.548828125)
+    elseif lv >= 2350 or lv <= 2399 then--46----
+        mon = monter
+        CFrameMon = CFrame.new(2233.53173828125, -90.4570083618164, -5481.28857421875)
+        CFrameQ = CFrame.new(2278.8330078125, -90.56163024902344, -5399.95751953125)
+    else
+        return nil
+    end
+    return mon, CFrameMon, CFrameQ
+end
+
+function AutoFarmWithQuest()
+    while _G.AutoFarm do
+        task.wait()
+
+            local success, err = pcall(function()
+            local player = game:GetService("Players").LocalPlayer
+            local questFolder = player:FindFirstChild("QuestFolder")
+            if not questFolder then
+                warn("QuestFolder ไม่พบในผู้เล่น")
+                return
+            end
+
+            local questSlot = questFolder:FindFirstChild("QuestSlot1")
+            if not questSlot then
+                warn("QuestSlot1 ไม่พบใน QuestFolder")
+                return
+            end
+
+            local mon, CFrameMon, CFrameQ = checkLevelAndQuest()
+            if not mon then
+                warn("ไม่มีเควสที่เหมาะสมกับเลเวลนี้")
+                return
+            end
+------
+            player.Character.HumanoidRootPart.CFrame = CFrameQ
+            task.wait(1)
+
+            local questsFolder = workspace.NPCs.Quests_Npc
+            for _, quest in pairs(questsFolder:GetChildren()) do
+                local block = quest:FindFirstChild("Block")
+                if block then
+                    local proximityPrompt = block:FindFirstChildOfClass("ProximityPrompt")
+                    if proximityPrompt then
+                        fireproximityprompt(proximityPrompt)
+                    else
+                        warn("ไม่พบ ProximityPrompt ในเควส: " .. quest.Name)
+                    end
+                else
+                    warn("ไม่พบ Block ในเควส: " .. quest.Name)
+                end
+            end
+
+            for _, v in pairs(game:GetService("Workspace").Monster:GetDescendants()) do
+                if v.Name == mon and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+                    if v.Humanoid.Health > 0 then
+                        repeat
+                            task.wait()
+                            if not _G.AutoFarm then break end
+
+                            local tool = player.Character:FindFirstChildOfClass("Tool")
+                            if tool then
+                                tool:Activate()
+                            else
+                                warn("ไม่พบเครื่องมือในตัวละคร")
+                            end
+                            player.Character.HumanoidRootPart.CFrame =
+                                v.HumanoidRootPart.CFrame * CFrame.new(0, 1.9, 6)
+                        until v.Humanoid.Health <= 0 or not _G.AutoFarm
+                    end
+                end
+            end
+
+            if questSlot.Status.Value == "Complete" then
+                print("Quest เสร็จสิ้น! กลับไปที่ NPC เพื่อรับเควสใหม่.")
+                player.Character.HumanoidRootPart.CFrame = CFrame.new(566.270081, -37.0430603, -556.440308)
+                task.wait(1)
+
+                for _, quest in pairs(questsFolder:GetChildren()) do
+                    local block = quest:FindFirstChild("Block")
+                    if block then
+                        local proximityPrompt = block:FindFirstChildOfClass("ProximityPrompt")
+                        if proximityPrompt then
+                            fireproximityprompt(proximityPrompt)
+                        else
+                            warn("ไม่พบ ProximityPrompt ในเควส: " .. quest.Name)
+                        end
+                    else
+                        warn("ไม่พบ Block ในเควส: " .. quest.Name)
+                    end
+                end
+            end
+        end)
+
+        if not success then
+            warn("เกิดข้อผิดพลาดใน AutoFarmWithQuest: " .. tostring(err))
+        end
+    end
+end
+
+
+
+Section:NewToggle("Auto Farm Lvl", "Toggle Auto Farm", function(state)
+    _G.AutoFarm = state
+    if state then
+        local success, err = pcall(AutoFarmWithQuest)
+        if not success then
+            warn("ไม่สามารถเริ่ม AutoFarm ได้: " .. tostring(err))
+        end
+    end
+end)
+
+local bringRunning = false
+Section:NewToggle("Bring mob", "Bring", function(state)
+
+    local function getMonsterAndPosition()
+        local success, mon, CFrameMon = pcall(checkLevelAndQuest) -- ใช้ pcall เพื่อจับข้อผิดพลาด
+        if success then
+            return mon, CFrameMon
+        else
+            warn("ไม่สามารถตรวจสอบเควสหรือมอนสเตอร์ได้:", mon)
+            return nil, nil
+        end
+    end
+
+ 
+    if state then
+        bringRunning = true
+        while bringRunning do
+            pcall(function() -- ครอบลูปด้วย pcall เพื่อป้องกันการหยุดทำงาน
+
+                local player = game:GetService("Players").LocalPlayer
+                local playerRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                if not playerRootPart then
+                    warn("ไม่พบ HumanoidRootPart ของผู้เล่น")
+                    return -- ข้ามลูปนี้ไปหากไม่มี HumanoidRootPart
+                end
+
+                local mon, CFrameMon = getMonsterAndPosition()
+                if not mon or not CFrameMon then
+                    warn("ไม่พบมอนสเตอร์หรือ CFrame ที่เหมาะสม")
+                    return -- ข้ามลูปนี้ไป
+                end
+
+                -- ลูปดึงมอนสเตอร์ทั้งหมดใน Workspace
+                for _, v in pairs(game:GetService("Workspace").Monster:GetChildren()) do
+                    if v.Name == mon and v:FindFirstChild("HumanoidRootPart") then
+                        local part = v:FindFirstChild("HumanoidRootPart")
+
+                        if humanoid then
+                            humanoid.PlatformStand = true
+                            humanoid.WalkSpeed = 0
+                            humanoid.JumpHeight = 0
+                        end
+
+
+                        if part then
+                            part.CFrame = CFrameMon -- ดึงมอนสเตอร์ไปยังตำแหน่งที่กำหนด
+                        end
+                    end
+                end
+
+                -- ตรวจสอบมอนสเตอร์ในเควสว่ายังอยู่หรือไม่
+                local foundMonster = false
+                for _, v in pairs(game:GetService("Workspace").Monster:GetChildren()) do
+                    if v.Name == mon and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                        foundMonster = true
+                        break
+                    end
+                end
+
+                if not foundMonster then
+                    warn("มอนสเตอร์ทั้งหมดตายแล้วหรือหายไป, กำลังค้นหามอนสเตอร์ใหม่")
+                    mon, CFrameMon = getMonsterAndPosition() -- เรียกเควสใหม่
+                end
+
+            end) -- ปิด pcall
+            wait(0.1) -- รอเพื่อป้องกันการลูปเร็วเกินไป
+        end
+    else
+        bringRunning = false
+        print("Bring mob toggle is off")
+    end
+end)
+
+local player = game:GetService("Players").LocalPlayer
+local RunService = game:GetService("RunService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+
+local connection
+local wasDead = true
+
+
+local function pressBKey()
+    VirtualInputManager:SendKeyEvent(true, "B", false, game) -- กดปุ่ม B
+    task.wait(0.1)
+    VirtualInputManager:SendKeyEvent(false, "B", false, game) -- ปล่อยปุ่ม B
+    print("Pressed B after respawning!")
+end
+
+
+Section:NewToggle("Auto Aura", "ToggleInfo", function(state)
+    if state then
+        print("Toggle On")
+        
+      
+        connection = RunService.Heartbeat:Connect(function()
+            local character = player.Character
+            local humanoid = character and character:FindFirstChild("Humanoid")
+
+            if humanoid then
+                if humanoid.Health > 0 and wasDead then
+                    
+                    pressBKey()
+                    wasDead = false
+                elseif humanoid.Health <= 0 then
+                    wasDead = true
+                end
+            end
+        end)
+    else
+        print("Toggle Off")
+        
+      
+        if connection then
+            connection:Disconnect()
+            connection = nil
+        end
+    end
+end)
+
+Section:NewDropdown("Select Weapon", "เลือกอาวุธ", Weaponlist, function(currentOption)
+    Weapon = currentOption
+    print("เลือกอาวุธ: " .. Weapon)
+end)
+Section:NewToggle("Auto Equip", "เปิด/ปิด การถืออาวุธอัตโนมัติ", function(state)
+    AutoEquiped = state
+    if AutoEquiped then
+        spawn(function()
+            while AutoEquiped do
+                task.wait(0.1)
+
+                -- ตรวจสอบว่าผู้เล่นมี Humanoid และ HumanoidRootPart หรือไม่
+                local player = game:GetService("Players").LocalPlayer
+                local character = player.Character or player.CharacterAdded:Wait()
+                local humanoid = character:FindFirstChild("Humanoid")
+                local rootPart = character:FindFirstChild("HumanoidRootPart")
+
+                if humanoid and rootPart then
+                    if Weapon then
+                        pcall(function()
+                            local tool = player.Backpack:FindFirstChild(Weapon)
+                            if tool then
+                                humanoid:EquipTool(tool)
+                                print("อาวุธถูกถือแล้ว: " .. Weapon)
+                            end
+                        end)
+                    end
+                else
+                    print("กำลังรอผู้เล่นเกิดใหม่...")
+                    repeat
+                        task.wait(0.5)
+                        character = player.Character or player.CharacterAdded:Wait()
+                        humanoid = character:FindFirstChild("Humanoid")
+                        rootPart = character:FindFirstChild("HumanoidRootPart")
+                    until humanoid and rootPart
+                end
+            end
+        end)
+    end
+end)
+
+
+
+
+
+
+
+local Section = Tab:NewSection("Auto Evans")
+_G.AutoFarmMEMEBEAST = false
+Section:NewToggle("Auto MEME BEAST", "Toggle auto kill MEME BEAST", function(state)
+    local MEMEBEAST = workspace.Monster["Meme Beast"]:FindFirstChild("HumanoidRootPart")
+    local player = game.Players.LocalPlayer
+
+    _G.AutoFarmMEMEBEAST = state -- Toggle variable for AutoFarm
+
+    if MEMEBEAST then
+        -- Teleport the player's character to the Meme Beast's position
+        player.Character.HumanoidRootPart.CFrame = MEMEBEAST.CFrame
+        -- Check children of "Meme Beast" for valid humanoid and root part
+        for _, v in pairs(workspace.Monster["Meme Beast"]:GetChildren()) do
+            if v.Name == "Meme Beast" and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+                local humanoid = v.Humanoid
+                if humanoid.Health > 0 then
+                    repeat
+                        task.wait()
+                        if not _G.AutoFarmMEMEBEAST then break end
+                        -- Check for a tool in the player's character and activate it
+                        local tool = player.Character:FindFirstChildOfClass("Tool")
+                        if tool then
+                            tool:Activate()
+                        else
+                            warn("No tool found in the character.")
+                        end
+                    until humanoid.Health <= 0 or not _G.AutoFarmMEMEBEAST
+                end
+            end
+        end
+    else
+        warn("HumanoidRootPart not found in Meme Beast.")
+    end
+end)
+_G.Auto_Awakening_Orb = false
+Section:NewToggle("Auto Do Awakening Orb", "Toggle auto Get Awakening Orb", function(state)
+    _G.Auto_Awakening_Orb = state -- เปิด/ปิด Auto Farm
+    function Auto_Awakening_OrbWithQuest()
+        while _G.Auto_Awakening_Orb do
+            task.wait()
+            local success, err = pcall(function()
+                local player = game:GetService("Players").LocalPlayer
+                local questFolder = player:FindFirstChild("QuestFolder")
+                if not questFolder then
+                    warn("QuestFolder ไม่พบในผู้เล่น")
+                    return
+                end
+
+                local questSlot = questFolder:FindFirstChild("QuestSlot1")
+                if not questSlot then
+                    warn("QuestSlot1 ไม่พบใน QuestFolder")
+                    return
+                end
+
+                local currentQuest = questSlot.QuestGiver.Value
+
+                if currentQuest and currentQuest ~= "None" then
+                    -- เริ่มฟาร์ม
+                    for _, v in pairs(game:GetService("Workspace").Monster:GetDescendants()) do
+                        if v.Name == "Sogga" and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+                            if v.Humanoid.Health > 0 then
+                                repeat
+                                    task.wait()
+                                    if not _G.Auto_Awakening_Orb then break end
+
+                                    -- โจมตี (ใช้ Tool)
+                                    local tool = player.Character:FindFirstChildOfClass("Tool")
+                                    if tool then
+                                        tool:Activate()
+                                    else
+                                        warn("ไม่พบเครื่องมือในตัวละคร")
+                                    end
+
+                                    -- เทเลพอร์ตเข้าใกล้มอนสเตอร์
+                                    player.Character.HumanoidRootPart.CFrame =
+                                        v.HumanoidRootPart.CFrame * CFrame.new(0, 1.9, 8)
+                                until v.Humanoid.Health <= 0 or not _G.Auto_Awakening_Orb
+                            end
+                        end
+                    end
+
+                    -- ตรวจสอบสถานะเควส
+                    if questSlot.Status.Value == "Complete" then
+                        print("Quest เสร็จสิ้น! กลับไปที่ NPC เพื่อรับเควสใหม่.")
+                        player.Character.HumanoidRootPart.CFrame = CFrame.new(-2622.46630859375, -77.40097045898438, -2002.1458740234375) -- ตำแหน่ง NPC
+                        task.wait(1)
+
+                        -- รับเควสใหม่
+                        local questsFolder = workspace.NPCs.Quests_Npc
+                        for _, quest in pairs(questsFolder:GetChildren()) do
+                            local block = quest:FindFirstChild("Block")
+                            if block then
+                                local proximityPrompt = block:FindFirstChildOfClass("ProximityPrompt")
+                                if proximityPrompt then
+                                    fireproximityprompt(proximityPrompt)
+                                else
+                                    warn("ไม่พบ ProximityPrompt ในเควส: " .. quest.Name)
+                                end
+                            else
+                                warn("ไม่พบ Block ในเควส: " .. quest.Name)
+                            end
+                        end
+                    end
+                else
+                    -- ไม่มีเควสปัจจุบัน: ไปรับเควสใหม่
+                    print("ไม่มีเควสที่กำลังทำงาน. ไปรับเควสใหม่.")
+                    player.Character.HumanoidRootPart.CFrame = CFrame.new(-2622.46630859375, -77.40097045898438, -2002.1458740234375)
+                    task.wait(1)
+
+                    local questsFolder = workspace.NPCs.Quests_Npc
+                    for _, quest in pairs(questsFolder:GetChildren()) do
+                        local block = quest:FindFirstChild("Block")
+                        if block then
+                            local proximityPrompt = block:FindFirstChildOfClass("ProximityPrompt")
+                            if proximityPrompt then
+                                fireproximityprompt(proximityPrompt)
+                            else
+                                warn("ไม่พบ ProximityPrompt ในเควส: " .. quest.Name)
+                            end
+                        else
+                            warn("ไม่พบ Block ในเควส: " .. quest.Name)
+                        end
+                    end
+                end
+            end)
+
+            if not success then
+                warn("เกิดข้อผิดพลาดใน Auto_Awakening_OrbWithQuest: " .. tostring(err))
+            end
+        end
+    end
+
+    if state then
+        local success, err = pcall(Auto_Awakening_OrbWithQuest)
+        if not success then
+            warn("ไม่สามารถเริ่ม Auto_Awakening_Orb ได้: " .. tostring(err))
+        end
+    end
+end)
+
+
+local Section = Tab:NewSection("AutoSkill")
+_G.AutoSkillZ = false
+_G.AutoSkillX = false
+_G.AutoSkillC = false
+_G.AutoSkillV = false
+
+Section:NewToggle("Auto Skill Z", "Toggle auto skill Z and X usage", function(state)
+    _G.AutoSkillZ = state 
+
+    if state then
+        while _G.AutoSkillZ do
+            task.wait() 
+            pcall(function()
+
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "Z", false, game)
+                task.wait(0.1)
+                game:GetService("VirtualInputManager"):SendKeyEvent(false, "Z", false, game)
+            end)
+        end
+    else
+        print("")
+    end
+end)
+
+Section:NewToggle("Auto Skill X", "Toggle auto skillX usage", function(state)
+    _G.AutoSkillX = state 
+
+    if state then
+        while _G.AutoSkillZ do
+            task.wait() 
+            pcall(function()
+
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "X", false, game)
+                task.wait(0.1)
+                game:GetService("VirtualInputManager"):SendKeyEvent(false, "X", false, game)
+            end)
+        end
+    else
+        print("")
+    end
+end)
+
+Section:NewToggle("Auto Skill C", "Toggle auto skillC usage", function(state)
+    _G.AutoSkillC = state 
+
+    if state then
+        while _G.AutoSkillZ do
+            task.wait() 
+            pcall(function()
+
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "C", false, game)
+                task.wait(0.1)
+                game:GetService("VirtualInputManager"):SendKeyEvent(false, "C", false, game)
+            end)
+        end
+    else
+        print("")
+    end
+end)
+
+Section:NewToggle("Auto Skill V", "Toggle auto skillV usage", function(state)
+    _G.AutoSkillV = state 
+
+    if state then
+        while _G.AutoSkillZ do
+            task.wait() 
+            pcall(function()
+
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "V", false, game)
+                task.wait(0.1)
+                game:GetService("VirtualInputManager"):SendKeyEvent(false, "V", false, game)
+            end)
+        end
+    else
+        print("")
+    end
+end)
+local Tab = Window:NewTab("Auto stats")
+local Section = Tab:NewSection("stats")
+
+-- ตัวแปรสถานะ
+_G.AutoMelee = false
+_G.AutoDefense = false
+_G.AutoSword = false
+_G.AutoDevilFruit = false
+
+-- ฟังก์ชันอัปเกรดสถานะ
+local function upgradeStats(target)
+    local args = {
+        [1] = {
+            ["Target"] = target,
+            ["Action"] = "UpgradeStats",
+            ["Amount"] = 1
+        }
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("OtherEvent"):WaitForChild("MainEvents"):WaitForChild("StatsFunction"):InvokeServer(unpack(args))
+end
+
+-- Toggle Melee
+Section:NewToggle("Melee", "ToggleInfo", function(state)
+    _G.AutoMelee = state
+    while _G.AutoMelee do
+        upgradeStats("MeleeLevel")
+        wait(0.01) -- รอ 01 วินาทีเพื่อป้องกันการทำงานซ้ำเร็วเกินไป
+    end
+end)
+
+-- Toggle Defense
+Section:NewToggle("Defense", "ToggleInfo", function(state)
+    _G.AutoDefense = state
+    while _G.AutoDefense do
+        upgradeStats("DefenseLevel")
+        wait(0.01)
+    end
+end)
+
+-- Toggle Sword
+Section:NewToggle("Sword", "ToggleInfo", function(state)
+    _G.AutoSword = state
+    while _G.AutoSword do
+        upgradeStats("SwordLevel")
+        wait(0.01)
+    end
+end)
+
+-- Toggle Devil Fruit
+Section:NewToggle("Devil Fruit", "ToggleInfo", function(state)
+    _G.AutoDevilFruit = state
+    while _G.AutoDevilFruit do
+        upgradeStats("MemePowerLevel") -- เปลี่ยนชื่อเป้าหมายให้ตรงกับที่ระบบใช้
+        wait(0.01)
+    end
+end)
+
+local Tab = Window:NewTab("Shop")
+local Section = Tab:NewSection("Shop")
+Section:NewButton("katana", "buy sword", function()
+    local args = {
+        [1] = "Weapon_Seller",
+        [2] = "Doge"
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("OtherEvent"):WaitForChild("MainEvents"):WaitForChild("Modules"):FireServer(unpack(args))    
+end)
+Section:NewButton("flame katana", "ButtonInfo", function()
+    local args = {
+        [1] = "Weapon_Seller",
+        [2] = "Cheems"
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("OtherEvent"):WaitForChild("MainEvents"):WaitForChild("Modules"):FireServer(unpack(args))    
+end)
+local Tab = Window:NewTab("Random Fruit")
+local Section = Tab:NewSection("Random")
+
+
+_G.Randomgem = false
+_G.Randombill = false
+_G.Reroll_Color = false
+
+Section:NewToggle("Instant Random(Gem)", "ToggleInfo", function(state)
+    _G.Randomgem = state 
+    if state then
+        print("Random Gem: ON")
+        while _G.Randomgem do
+        
+            local args = {
+                [1] = "Random_Power",
+                [2] = {
+                    ["Type"] = "Once",
+                    ["NPCName"] = "Floppa Gacha",
+                    ["GachaType"] = "Gem"
+                }
+            }
+
+            game:GetService("ReplicatedStorage"):WaitForChild("OtherEvent"):WaitForChild("MainEvents"):WaitForChild("Modules"):FireServer(unpack(args))
+            wait(0.25) 
+        end
+    else
+        return nil
+    end
+end)
+
+
+Section:NewToggle("Instant Random(Money)", "ToggleInfo", function(state)
+    _G.Randombill = state  
+    if state then
+        print("Random Money: ON")
+        while _G.Randombill do
+        
+            local args = {
+                [1] = "Random_Power",
+                [2] = {
+                    ["Type"] = "Once",
+                    ["NPCName"] = "Floppa Gacha",
+                    ["GachaType"] = "Money"
+                }
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("OtherEvent"):WaitForChild("MainEvents"):WaitForChild("Modules"):FireServer(unpack(args))
+            wait(0.25)
+        end
+    else
+        return nil
+    end
+end)
+-------------------------------
+Section:NewToggle("Reroll_Color -- 250Gem", "ToggleInfo", function(state)
+    _G.Reroll_Color = state
+    if state then
+        print("Reroll_Color: ON")
+        while _G.Reroll_Color do
+            local args = {
+                [1] = "Reroll_Color",
+                [2] = "Halfed Sorcerer"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("OtherEvent"):WaitForChild("MainEvents"):WaitForChild("Modules"):FireServer(unpack(args))
+            wait(0.25)
+        end
+    else
+        return nil
+    end
+end)
+-------------------------------------------------------------------------------------
+local Tab = Window:NewTab("Teleport")
+local Section = Tab:NewSection("Select!")
+Section:NewButton("Floppa Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(350.2289733886719, -37.01897430419922, -653.4171752929688)
+end)
+Section:NewButton("Snow Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2649.09130859375, -77.388916015625, -1833.3984375)
+end)
+Section:NewButton("Gorilla Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2823.37353515625, -91.00898742675781, 620.9476318359375)
+end)
+Section:NewButton("Desert Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-547.4031372070312, -92.65158081054688, -2483.80224609375)
+end)
+Section:NewButton("Pumpkin Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1151.0924072265625, -92.83844757080078, 816.2647705078125)
+end)
+Section:NewButton("Sussy Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1192.1468505859375, -51.686973571777344, 2443.63818359375)
+end)
+Section:NewButton("Moai Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-3091.887451171875, -81.01920318603516, 3087.388671875)
+end)
+Section:NewButton("Forgotten Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(7842.75830078125, 30.832530975341797, 4650.2392578125)
+end)
+Section:NewButton("PvpArena Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3655.52880859375, -92.3102798461914, -566.222412109375)
+end)
+Section:NewButton("MrBeast Island", "ButtonInfo", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1799.998046875, -90.4494857788086, -4370.72802734375)
+end)
+
+local Tab = Window:NewTab("Player")
+local Section = Tab:NewSection("speed jumpp")
+
+Section:NewTextBox("Speed", "Enter walk speed", function(s)
+    local speed = tonumber(s)
+    if speed then
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+    else
+        warn("กรุณาป้อนค่าเป็นตัวเลขสำหรับ Speed")
+    end
+end)
+
+Section:NewTextBox("JumpPower", "Enter jump power", function(j)
+    local jumpPower = tonumber(j)
+    if jumpPower then
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = jumpPower
+    else
+        warn("กรุณาป้อนค่าเป็นตัวเลขสำหรับ JumpPower")
+    end
+end)
+
+
+Section:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.F, function()
+    Library:ToggleUI()
+end)
